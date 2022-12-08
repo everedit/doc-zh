@@ -2,13 +2,13 @@
 ## 概述
 EverEdit有着优异的语法着色引擎，可以高亮现存的绝大多数的编程语言。在EverEdit的语法着色中有Region和Item两个概念，Region表示着不同的区块。而Item则代表着这些区块中不同的部分。一般情况下，Region表示跨行的文本匹配，而Item表示一行内的文本匹配。另外，Region也支持空匹配，也就是说您可以指定某个特定的位置用来表达Region的起始或者结束，比如行头和行尾甚至于某个特定的列，从而可以完美的高亮markdown等语言的文件。同时Item还支持捕获分组，可以极大地提高定义着色文件的准确性。在安装目录的`syntax`文件夹中已包含很多语法着色文件，您可以参照它们写出更加优美正确的着色效果！
 
-## 代码片段
+## 绑定代码片段
 不同的Region可以绑定不同的代码片段，比如html中的css,js区域等。比如php.mac中的：
 
-```
+```vb
 rPhp.AddSnippet "php.snippet"
 ```
-这样就把snippet加入到了php区域中了。这些snippet仅在该区域起作用，用户输入完整的提示字符，然后按下tab键就可以快速展开。一个区域可以使用AddSnippet函数添加多个snippet。同样，一个文件也可能会有多个不同的着色区域，通过如此搭配，可以实现严格的区分效果。
+这样就把snippet加入到了php区域中了。这些snippet仅在该区域起作用，用户输入完整的提示字符，然后按下tab键就可以快速展开。一个区域可以使用`AddSnippet`函数添加多个snippet。同样，一个文件也可能会有多个不同的着色区域，通过如此搭配，可以实现严格的区分效果。
 
 ## 类和函数
 着色文件是可编程的，每个着色文件都是一个按照指定语法书写的脚本文件。因EverEdit开发的历史原因，目前着色文件的语法仅支持vbscript。
@@ -16,7 +16,7 @@ rPhp.AddSnippet "php.snippet"
 ## 颜色定义
 在定义语法文件的时候，一定会想到要把不同的部分显示为不同的颜色。EverEdit内置多种颜色，赶快让您的文件多彩起来吧！下面是syntax目录中const.mac描述的颜色值。注意：颜色的具体设定是在主题里面指定的，这些只是颜色的定义，不是具体的颜色表达。
 
-```
+```vb
 Const COLOR_DEFAULT       =0
 Const COLOR_COMMENT1      =1
 Const COLOR_COMMENT2      =2
@@ -49,23 +49,23 @@ Const COLOR_IGNORE        =29
 Const COLOR_CONCEAL       =30
 ```
 
-**注意:**凡是被指定为COLOR_IGNORE模式的字符串，它的前景色将和主界面的背景色一致，看起来好像不存在一样。只有被选择的时候，才会看到！而COLOR_CONCEAL则是一个比较有意思的模式，被指定为COLOR_CONCEAL的字符仅当处于选区或者当前行的时候，才是可见的！借助这个特性，可以实现出很多非常有用的功能！
+**注意:**凡是被指定为`COLOR_IGNORE`模式的字符串，它的前景色将和主界面的背景色一致，看起来好像不存在一样。只有被选择的时候，才会看到！而`COLOR_CONCEAL`则是一个比较有意思的模式，被指定为`COLOR_CONCEAL`的字符仅当处于选区或者当前行的时候，才是可见的！借助这个特性，可以实现出很多非常有用的功能！
 
 ## SyntaxItem
-```
+```vb
 void Capture(int group, int state);
 string Name;//get,set
 ```
 
 ## WordItem
-```
+```vb
 bool AutoCase;//get,set
 string Name;//get,set
 ```
 
 ## SyntaxRegion
 ### 函数
-```
+```vb
 bool AddSnippet(string strName, bool bCase=true)
 添加snippet到该Region。strName为snippet的文件名称，因所有的snippet文件必须放到snippet文件夹，所以只需要提供snippet的文件名称即可。bCase:snippet在匹配的时候是否区分大小写
 void AddItem(SyntaxItem item );
@@ -88,7 +88,7 @@ void AddSnippet( string title, string trigger, string text, bool script=false);
 ```
 
 ### 属性
-```
+```vb
 void TransRegion;//set
 当该区域的文本结束时，该Region默认情况下将会自动跳转到父Region；如果定义了TransRegion那么将会跳转到Region。
 string Name;//get;set
@@ -99,7 +99,7 @@ string Name;//get;set
 Parser默认情况下包含了一个DefaultRegion。部分针对Default Region函数的使用可以参考SyntaxRegion的说明。
 
 ### 函数
-```
+```vb
 bool AddSnippet(string strPathName, bool case_sensitve=true );
 void AddItem(SyntaxItem item );
 void AddWord(WordItem item );
@@ -166,7 +166,7 @@ void SetCJKFont( string font_name, int font_size, int base_line, bool bold);
 ```
 
 ### 属性
-```
+```vb
 string Name;//get,set
 默认区域的命名
 string FoldingMethod;//get,set
@@ -190,46 +190,46 @@ string OnNewLine;
 
 绝大多数的着色文件均是由上面几个非常简单的元素构成。好了，开始我们的自定义吧！建立一个新的文件mycpp.mac并把它放到syntax目录下。为了使用颜色值，我们可以把已经定义好的cosnt.mac包含进来，当然您也可以直接把该文件的内容粘贴到这个文件当中。
 
-```
+```vb
 Include( ".\const.mac" )
 ```
 
 创建一个自定义的Parser，命名为cpp。
 
-```
+```vb
 Set cpp=Parser.CreateParser()
 ```
 
 在创建完自定义Parser之后,我们就要开始为之添加各种各样的元素了！
 **创建单行注释匹配**：单行注释很显然是一个Region，而不是一个Item，因为它有开始和结束的标志！那就是以//开始，以行尾结束！
-```
+```vb
 Set regionLine=cpp.CreateRegion( COLOR_COMMENT1, "+//+", "$", True )
 ```
 
 **注意**：这儿我们使用了++, 其中被+包围了, 表示这儿为了提高效率不使用正则表达式进行匹配! 结束标志我们把它定义成$, 明确表示匹配到行尾, 不然的话只会匹配//了!
 创建多行注释匹配：
-```
+```vb
 Set regionBlock=cpp.CreateRegion( COLOR_COMMENT1, "+/*+", "+*/+", True )
 ```
 
 创建字符串匹配：
-```
+```vb
 Set regionString=cpp.CreateStringRegion( COLOR_STRING1, """", "\", False )
 ```
 
 创建关键字匹配：
-```
+```vb
 Set itemWord=cpp.CreateItem(COLOR_WORD1, "\b(int|float|double|char|void|
 for|while|if|else|return|break|continue)\b", True)
 ```
 
 **注意**：为了更好的创建关键字匹配, 可以使用CreateWord函数, 比如上文中的关键字匹配, 也可以这么写，效率更高：
-```
+```vb
 Set itemWord2=cpp.CreateWord(COLOR_WORD1, "int float double char void for while if else return break continue", True)
 ```
 
 把所有创建的匹配加入到主区域中：
-```
+```vb
 cpp.AddRegion( regionLine )
 cpp.AddRegion( regionBlock )
 cpp.AddRegion( regionString )
@@ -237,7 +237,7 @@ cpp.AddItem( itemWord )
 ```
 
 到这儿为止我们就自定义了一个简单的C语言着色引擎，看看成品吧！
-```
+```vb
 Include( ".\const.mac" )
 Set cpp=Parser.CreateParser()
 Set regionLine=cpp.CreateRegion( COLOR_COMMENT1, "+//+", "", True )
@@ -256,39 +256,39 @@ cpp.AddItem( itemWord )
 在实例1中我们学习了如何创造一个自定义的着色引擎, 那么让我们来进一步丰富这个引擎吧!首先, 我想让注释中所有大写的TODO都显示为一种特殊的颜色! 注意仅仅是注释中, 其它的部分不变!
 
 ### 定义TODO匹配
-```
+```vb
 Set itemTodo=cpp.CreateItem(COLOR_HIGHLIGHT1, "\bTODO\b", True)
 ```
 
 把TODO匹配加入到单行和多行注释中：
-```
+```vb
 regionLine.AddItem( itemTodo )
 regionBlock.AddItem( itemTodo )
 ```
 
 这样我们就可以仅仅在注释中显示高亮为COLOR_HIGHLIGHT1颜色的TODO文字了！EverEdit同样为代码折叠提供了简单方便的调用接口。比如当遇到{时折叠一次，遇到}时反折叠一次，那么可以简单的像下面书写：
 
-```
+```vb
 cpp.FoldText "\{", False, "\}", False
 ```
 
 ### 自动缩进
 假设在mycpp中有这样一种缩进：当您在行尾是EEA的时候，输入回车时，自动缩进一次；输入的行满足含有EverEdit时，自动反缩进一次。
 
-```
+```vb
 cpp.IndentText "EEA$ ", False, "EVEREDIT", False
 ```
 
 ### 括号匹配
 我们定义[],{},(),"",''是匹配的字符。
 
-```
+```vb
 cpp.SetPairs "[]{}()""""''"
 ```
 
 可以被快捷键调用的快速注释：
 
-```
+```vb
 cpp.CommentLine "//"
 cpp.CommentBlock "/*", "*/"
 ```
@@ -305,21 +305,21 @@ cpp.CommentBlock "/*", "*/"
 
 那么，有一些语言是比较特殊的，比如ini，它应该折叠折叠每一个section，这些section无法用折叠表达式来描述，所以EverEdit又提供了另一种折叠描述，那就是anytext。anytext是指定义一个规则和指定的level，遇到该规则，则自动的使用指定的level而不是EverEdit自动判断的level。看看ini中的代码折叠。
 
-```
+```vb
 ini.FoldingMethod="anytext"
 ini.FoldAnyText 0, "^\s*\[.*?\]$"
 ```
 
 另外，EverEdit还提供了依据缩进进行折叠，很多缩进规则比较好的语言，用缩进更美观。比如python中的折叠。
 
-```
+```vb
 python.FoldingMethod="indent"
 ```
 
 ## 主题
 EverEdit的主题非常的强大，但是它有一个缺点，那就是所有的语法文件都会应用到同一个主题。有时候我们期望某个独特类型的文件能使用自己的主题，可不可以呢？当然没问题！只要打开对应的语法着色文件，然后加一行代码就可以了！
 
-```
+```vb
 parser.SetTheme(“xxxx.ini”)
 ```
 
@@ -336,13 +336,13 @@ parser.SetTheme(“xxxx.ini”)
 EverEdit支持简单的基于字符匹配的函数提示,当输入函数的某个开始字符时,会在上方弹出一个文本框,显示该函数的原型和释义，方便用户确认函数的参数和用法，在输入函数参数的分割符时，EverEdit会自动地以下划虚线的方式强调表示。函数提示是以文本文件的形式存储在calltip文件夹中的，如果需要在calltip中显示中日韩字符，要确保该文件是以UTF8不带BOM的形式进行保存的。
 
 下面来看看该文件的存储格式，以c.ecp为例进行说明。
-```
+```vb
 abs(int x):int\nReturns the absolute value of x
 ```
 
 其中有\n字符，表示这是一个换行符，后面的部分表示函数的释义，当然这部分是可以省略的。前面的部分表示函数的原型。abs一定要写在最开始，EverEdit会从最开始进行匹配，所以我们把函数的返回类型写在了最后。在定义完一个calltip之后，我们需要明确的告知EverEdit：该calltip要被那个着色文件的哪个region加载，使用下面的函数：
 
-```
+```vb
 void AddCallTip( string strFileName, bool bCase, string strWord="", string strBegin="(", string strSep=",", string strEnd=")", bool bRemoveSpace=false );
 
 strFileName：文件名称，不需要带路径。比如c.ecp。
