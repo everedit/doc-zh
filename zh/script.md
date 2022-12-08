@@ -13,7 +13,7 @@ EverEdit以面向对象的方式封装了一些常用的类和函数，在脚本
 
 ## Application
 ### 函数
-```
+```vb
 Menu CreateMenu();
 创建菜单。该菜单的弹出将会跟随鼠标位置。
 
@@ -63,7 +63,7 @@ string GetTempFolder()
 void Alert(string text) 状态栏闪烁文本
 ```
 
-```
+```vb
 int ShowMsgBox(string strText, string strTitle, int buttons);
 弹出消息对话框。strText:对话框中的文本；strTitle:对话框的标题。buttons:对话框按钮的组合。
 有以下几种组合(摘自MSDN):
@@ -111,7 +111,7 @@ HtmlDialog ShowHtmlDialog(bool modal, String url, int width, int height);
 ```
 
 ### 属性
-```
+```vb
 Document ActiveDoc; //get
 HexDoc ActiveHex; //get
 Document document; //get
@@ -129,7 +129,7 @@ string CurDir; //get,set
 
 ## Document
 ### 函数
-```
+```vb
 Menu CreateMenu();
 创建菜单。菜单的弹出位置将会跟随光标Caret。
 
@@ -194,7 +194,7 @@ void Wrap(int type);
 void Wrap(int type, int val);
 ```
 
-```
+```vb
 int ReplaceAll(string strFind, string strReplace, bool bCase, bool bRegex, bool bWord, bool bExtended);
 int ReplaceAll(string strFind, string strReplace, bool bCase, bool bRegex, bool bWord);
 int ReplaceAll(string strFind, string strReplace, bool bCase, bool bRegex);
@@ -213,7 +213,7 @@ bool FindNext(string strFind);
 以当前光标位置为基准，向下查找并高亮匹配的指定字符串，未找到则返回False。
 ```
 
-```
+```vb
 string GetWord(int flag);
 依据flag获取光标处的文本。flag的取值如下:
 #define GETWORD_LWORD           1
@@ -262,7 +262,7 @@ void Wrap(int type, int value=0)
 ```
 
 ### 属性
-```
+```vb
 Pos CaretPos;//get,set
 Pos SelStartPos;//get
 Pos SelEndPos;//get
@@ -287,14 +287,14 @@ string Syntax;
 ```
 
 ### 光标位置:Pos
-```
+```vb
 int Line;//get,set
 int Col;//get,set
 ```
 
 ## 输出窗口:OutputWindow
 ### 函数
-```
+```vb
 void OutputText(string strText);
 void OutputLine(string strText);
 void SetJumpPattern(string strText, int file, int line, int col);
@@ -308,7 +308,7 @@ void Hide();
 ```
 
 ## 菜单:Menu
-```
+```vb
 void AddItem(int nCommand, string strText);
 void AddSubItem(string strText, Menu pSub);
 void AddSeparator();
@@ -318,7 +318,7 @@ string GetText(int nCommand);
 ```
 
 ## 持久化存储:PersistentStringTable
-```
+```vb
 void BeginAdd(); //必须要和EndAdd配对使用
 void AddItem(string key, string value);
 void EndAdd();
@@ -331,7 +331,7 @@ void Clear();
 ```
 
 ## 字符串表:StringTable
-```
+```vb
 void AddItem(string key, string value);
 string GetKeyAt(int idx);
 string GetValueAt(int idx);
@@ -342,12 +342,12 @@ void Clear();
 ```
 
 ## HtmlDialog
-```
+```vb
 void SetTitle(string title); //设置对话框的标题
 ```
 
 ## HexDoc
-```
+```vb
 void InsertText(int nOffset, string lpText);
 void InsertText(string lpText);
 void InsertBinary(int nOffset, string lpText);
@@ -367,7 +367,7 @@ int Size;
 ## Hello World
 下面看看在EverEdit中用脚本如何显示一个Hello，World。首先打开EverEdit，建立一纯文本文件，保存以下代码：
 
-```
+```vb
 var str = "hello, world";
 App.OutputText(str);
 
