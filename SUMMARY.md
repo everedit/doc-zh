@@ -1,4 +1,4 @@
-* [代码片段] (zh/snippet.md)
+* [代码片段] (./zh/snippet.md)
 * [脚本] (zh/script.md)
 * [模式] (zh/mode.md)
 * [命令窗口] (zh/cli.md)
