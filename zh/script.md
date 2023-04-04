@@ -7,9 +7,11 @@ EverEdit内置JScript/VBS作为基础的脚本解释引擎（理论上支持以A
 EverEdit以面向对象的方式封装了一些常用的类和函数，在脚本中处于最顶层的对象是`App`，其它的对象均由此创建而来。
 
 ## 全局函数和变量
-* `SCRIPT_PATH`: 获取当前脚本的全路径
-* `SCRIPT_NAME`: 获取当前脚本的文件名称
+* `SCRIPT_PATH`: 获取当前脚本的路径
+* `SCRIPT_FULLNAME` 获取当前脚本的路径+名称
+* `SCRIPT_NAMEONLY` 只获取当前脚本的名称
 * `Include()`: 包含某个文件。注意：EverEdit会直接读取被包含的文件，然后在当前上下文中进行执行。
+* `SCRIPT_NAME`: 已舍弃自4.5.0.4500
 
 ## Application
 ### 函数
@@ -98,6 +100,9 @@ string GetTempFolder()
 
 // 状态栏闪烁文本, 5秒后停止闪烁
 void Alert(string text)
+
+// 删除指定的模板文件
+DeleteTemplate(string title)
 ```
 
 ```c
