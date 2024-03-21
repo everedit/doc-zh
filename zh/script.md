@@ -502,6 +502,14 @@ int EditMode();
 int Size;
 ```
 
+## Project
+```c
+// 获取工程文件
+string GetFile(int idx);
+// 获取工程文件的个数
+int FileCount;//get
+```
+
 ## Hello World
 下面看看在EverEdit中用脚本如何显示一个Hello，World。首先打开EverEdit，建立一纯文本文件，保存以下代码：
 
